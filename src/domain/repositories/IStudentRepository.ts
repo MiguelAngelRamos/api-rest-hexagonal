@@ -9,5 +9,4 @@ export interface IStudentRepository {
   // update(4, {name: 'Sofia Catalina'}); // actualizando solo el nombre
   // update(4, {age: 24 }); // actualizando solo la edad
   delete(id: number): Promise<void>;
-
 }
