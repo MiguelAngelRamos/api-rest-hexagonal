@@ -34,17 +34,36 @@ export class MysqlStudentRepository implements IStudentRepository {
     const id = result.insertId; // *obtenemos el id autoincremental que creo la base de datos.
     // { { id: 6}, { name: "antonio", age: 20 }}
     // { id: 6, name: "antonio", age: 20}
-
     return {id, ...student} as IStudent;
     // "INSERT INTO students (name, age) VALUES ("+ student.name + "," + student.age +")";
   }
 
   async update(id: number, student: Partial<IStudent>): Promise<IStudent> {
-    throw new Error("Method not implemented.");
+
+    const connection = await this.getConnection();
+    //* Verificar que el estudiante exista antes de intentar actualizarlo
+    const existingStudent = await this.findById(id);
+    // updatedStundent existe true (!true) => false
+    //* updatedStundent no existe false (!false) => true
+    if(!existingStudent) {
+      throw new Error('Student not found');
+    }
+    await connection.execute('UPDATE students SET name = ?, age = ? WHERE id = ?', [student.name, student.age, id]);
+    const updatedStudent = await this.findById(id);
+
+    if(!updatedStudent) {
+      throw new Error('Student not found');
+    }
+    return updatedStudent;
+
+    // const [result] = await connection.execute<ResultSetHeader>("UPDATE students SET name = ?, age = ? WHERE id = ?", [student.name, student.age, id]);
+    //  return result as unknown as IStudent;
+   
   }
 
   async delete(id: number): Promise<void> {
-    throw new Error("Method not implemented.");
+    const connection = await this.getConnection();
+    await connection.execute('DELETE FROM students WHERE id = ?', [id]);
   }
 
 
