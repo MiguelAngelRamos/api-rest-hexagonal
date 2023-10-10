@@ -20,6 +20,7 @@ export class MysqlStudentRepository implements IStudentRepository {
   async findById(id: number): Promise<IStudent | null> {
     const connection = await this.getConnection();
     const [rows] = await connection.execute<RowDataPacket[]>('SELECT * FROM students WHERE id = ?', [id]);
+  
     if( rows.length === 0) {
       return null;
     }

@@ -17,8 +17,11 @@ const container = createContainer({
 container.register({
   dbConfig: asValue(config.dbConfig),
   dbConnection: asClass(MysqlConnection).singleton(),
+  //* Repositories
   studentRepository: asClass(MysqlStudentRepository).scoped(),
+  //* Servicios
   studentService: asClass(StudentService).scoped(),
+  //* Controladores
   studentController: asClass(StudentController).scoped()
 });
 
