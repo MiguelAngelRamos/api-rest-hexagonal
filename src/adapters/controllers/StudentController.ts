@@ -11,6 +11,8 @@ export class StudentController {
     this.router.get('/', this.all.bind(this));
     this.router.get('/:id', this.getById.bind(this));
     this.router.post('/', this.create.bind(this));
+    this.router.put('/:id', this.update.bind(this));
+    this.router.delete('/:id', this.delete.bind(this));
   }
 
 @GET() //* http://localhost:3000/students
@@ -36,6 +38,28 @@ public async getById(req: Request, res: Response) {
 public async create(req: Request, res: Response) {
   const student = await this.studentService.createStudent(req.body);
   res.status(201).json(student);
+}
+@route('/:id')
+@PUT()
+public async update(req: Request, res: Response) {
+  const id = Number(req.params.id);
+  const updatedStudent = await this.studentService.updateStudent(id, req.body);
+  if(updatedStudent) {
+    res.json(updatedStudent);
+  } else {
+    //* typescript  y javascript
+    //* "" '' 'Hola mundo'  "Hola Mundo"
+    res.status(404).send('Student not found');
+  }
+
+}
+
+@route('/:id')
+@DELETE()
+public async delete(req: Request, res: Response) {
+  const id = Number(req.params.id);
+  await this.studentService.deleteStudent(id);
+  res.status(204).send();
 }
 
 }
