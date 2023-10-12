@@ -6,6 +6,7 @@ import { MysqlConnection } from './infrastructure/db/MysqlConnection';
 import { MysqlStudentRepository } from './infrastructure/repositories/MysqlStudentRepository';
 import { StudentService } from './application/service/StudentService';
 import { StudentController } from './adapters/controllers/StudentController';
+import { AuthService } from './application/service/AuthService';
 
 const app = express();
 
@@ -19,8 +20,10 @@ container.register({
   dbConnection: asClass(MysqlConnection).singleton(),
   //* Repositories
   studentRepository: asClass(MysqlStudentRepository).scoped(),
+  userRepository: asClass(MysqlStudentRepository).scoped(),
   //* Servicios
   studentService: asClass(StudentService).scoped(),
+  authService: asClass(AuthService).scoped(),
   //* Controladores
   studentController: asClass(StudentController).scoped()
 });
