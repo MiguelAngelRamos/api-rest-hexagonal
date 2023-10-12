@@ -7,6 +7,7 @@ import { MysqlStudentRepository } from './infrastructure/repositories/MysqlStude
 import { StudentService } from './application/service/StudentService';
 import { StudentController } from './adapters/controllers/StudentController';
 import { AuthService } from './application/service/AuthService';
+import { UserController } from './adapters/controllers/UserController';
 
 const app = express();
 
@@ -25,7 +26,8 @@ container.register({
   studentService: asClass(StudentService).scoped(),
   authService: asClass(AuthService).scoped(),
   //* Controladores
-  studentController: asClass(StudentController).scoped()
+  studentController: asClass(StudentController).scoped(),
+  userController: asClass(UserController).scoped(),
 });
 
 app.use(scopePerRequest(container));
@@ -34,6 +36,10 @@ app.use(express.json());
 app.use('/students', (req, res, next) => {
   container.resolve('studentController').router(req, res, next);
 });
+
+app.use('/users', (req, res, next) => {
+  container.resolve('userController').router(req, res, next);
+})
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
