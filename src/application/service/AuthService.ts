@@ -61,7 +61,9 @@ export class AuthService implements IAuthService{
   async registerUser(user: IUser): Promise<void> {
     try {
       //* Validar si el usuario ya existe
+      // console.log(user);
       const existingUser = await this.userRepository.findUserByUsername(user.username);
+      // console.log(existingUser);
       if(existingUser) {
         throw new Error("Username already taken.")
       }
