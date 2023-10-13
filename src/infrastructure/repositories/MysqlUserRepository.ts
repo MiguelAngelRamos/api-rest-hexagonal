@@ -20,12 +20,11 @@ export class MysqlUserRepository implements IUserRepository {
       conn.release();
     }
   }
-  public async createUser(user: Omit<IUser, "id">): Promise<IUser> {
-
+  public async createUser(user: Omit<IUser, 'id'>): Promise<IUser> {
     const conn = await this.dbConnection.getConnection();
-    console.log(conn);
+
     try {
-      const [result] = await conn.query<ResultSetHeader>('INSERT INTO users SET ?', user);
+      const [result] = await conn.query<ResultSetHeader>('INSERT INTO users (username, password_hash) VALUES(?,?)', [user.username, user.passwordHash]);
       console.log(result);
       const id = result.insertId;
 
