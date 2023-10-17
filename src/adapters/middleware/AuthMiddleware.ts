@@ -12,7 +12,7 @@ export class AuthMiddleware {
       req.user = userPayload;
       next(); //* sigue hacia el StudentController
     } catch (error) {
-      res.status(401).send('Invalid Token');
+      res.status(401).send('401 Unauthorized');
     }
   }
 }

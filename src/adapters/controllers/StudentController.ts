@@ -7,6 +7,7 @@ import { StudentService } from '../../application/service/StudentService';
 export class StudentController {
   public router: Router;
   constructor(private readonly studentService: StudentService) {
+    // req.user //* informacion de payload dentro payload viene el ROL 
     this.router = Router();
     this.router.get('/', this.all.bind(this));
     this.router.get('/:id', this.getById.bind(this));

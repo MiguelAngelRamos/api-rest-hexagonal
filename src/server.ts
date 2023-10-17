@@ -38,7 +38,11 @@ app.use(scopePerRequest(container));
 app.use(express.json());
 //* localhost:3000/students
 app.use('/students', (req, res, next) => {
-  container.resolve('studentController').router(req, res, next);
+  const authMiddleware = container.resolve('authMiddleware');
+  authMiddleware.authenticateJWT(req, res, () => {
+    container.resolve('studentController').router(req, res, next);
+  });
+ 
 });
 
 app.use('/users', (req, res, next) => {
