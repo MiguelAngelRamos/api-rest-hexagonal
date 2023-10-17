@@ -16,7 +16,7 @@ export class UserController {
   }
 
   @POST()
-  @route('/login')
+  @route('/login')  //* localhost:3000/users/login
   public async login(req: Request, res: Response) {
     try {
       const { username, password } = req.body; 
@@ -36,22 +36,28 @@ export class UserController {
   }
 
   @POST()
-  @route('/register')
+  @route('/register')  //* localhost:3000/users/register
   public async register (req: Request, res: Response ) {
     try {
-      const { username, password } = req.body;
-    
-      
+      const { username, password, role } = req.body;
+      console.log(username);
+      console.log(password);
       if(!username || !password) {
         return res.status(400).json({ error: 'Username and password are required'});
       }
-
+      //* encriptamos la contraseña (password)
       const hashedPassword = this.authService.hashPassword(password);
 
       const newUser: IUser = {
         username: username,
-        passwordHash: hashedPassword
+        passwordHash: hashedPassword,
+        role: role
       };
+      // const newUser: IUser = {
+      //   username,
+      //   passwordHash: hashedPassword,
+      //   role
+      // };
   
       await this.authService.registerUser(newUser);
       return res.status(201).json({message: 'User registered successfully'});

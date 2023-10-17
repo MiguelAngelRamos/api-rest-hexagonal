@@ -14,7 +14,7 @@ export class MysqlUserRepository implements IUserRepository {
     console.log(username);
     const conn = await this.dbConnection.getConnection();
     try {
-      const [rows] = await conn.query('SELECT * FROM users2 WHERE username = ?' , [username]) as unknown as [RowDataPacket[]];
+      const [rows] = await conn.query('SELECT * FROM users WHERE username = ?' , [username]) as unknown as [RowDataPacket[]];
       console.log(rows);
       if(rows.length > 0 ) {
         return rows[0] as IUser;
@@ -28,7 +28,7 @@ export class MysqlUserRepository implements IUserRepository {
     const conn = await this.dbConnection.getConnection();
 
     try {
-      const [result] = await conn.query<ResultSetHeader>('INSERT INTO users2 (username, password_hash) VALUES(?,?)', [user.username, user.passwordHash]);
+      const [result] = await conn.query<ResultSetHeader>('INSERT INTO users (username, password_hash) VALUES(?,?)', [user.username, user.passwordHash]);
       console.log(result);
       const id = result.insertId;
 

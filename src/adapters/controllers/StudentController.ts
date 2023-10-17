@@ -3,7 +3,7 @@ import { DELETE, GET, POST, PUT, route } from 'awilix-express';
 import { StudentService } from '../../application/service/StudentService';
 
 
-@route('/students')
+@route('/students') //* localhost/students
 export class StudentController {
   public router: Router;
   constructor(private readonly studentService: StudentService) {
@@ -39,7 +39,7 @@ public async create(req: Request, res: Response) {
   const student = await this.studentService.createStudent(req.body);
   res.status(201).json(student);
 }
-@route('/:id')
+@route('/:id') //**http://localhost:3000/students/4
 @PUT()
 public async update(req: Request, res: Response) {
   const id = Number(req.params.id);
@@ -54,7 +54,7 @@ public async update(req: Request, res: Response) {
 
 }
 
-@route('/:id')
+@route('/:id') //**http://localhost:3000/students/4
 @DELETE()
 public async delete(req: Request, res: Response) {
   const id = Number(req.params.id);
