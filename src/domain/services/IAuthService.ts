@@ -1,3 +1,4 @@
+//* src/domain/services/IAuthService
 import { IUser } from "../entities/IUser";
 
 export interface IAuthService {

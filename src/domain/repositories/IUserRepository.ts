@@ -1,4 +1,5 @@
-import { IUser } from "../entities/IUser";
+//* src/domain/repositries/IUserRepository
+import { IUser } from '../entities/IUser';
 
 export interface IUserRepository {
   findUserByUsername(username: string): Promise<IUser | null>;

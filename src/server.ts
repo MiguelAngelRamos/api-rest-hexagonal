@@ -8,6 +8,7 @@ import { StudentService } from './application/service/StudentService';
 import { StudentController } from './adapters/controllers/StudentController';
 import { AuthService } from './application/service/AuthService';
 import { UserController } from './adapters/controllers/UserController';
+import { MysqlUserRepository } from './infrastructure/repositories/MysqlUserRepository';
 
 const app = express();
 
@@ -21,7 +22,7 @@ container.register({
   dbConnection: asClass(MysqlConnection).singleton(),
   //* Repositories
   studentRepository: asClass(MysqlStudentRepository).scoped(),
-  userRepository: asClass(MysqlStudentRepository).scoped(),
+  userRepository: asClass(MysqlUserRepository).scoped(), //* este era el error
   //* Servicios
   studentService: asClass(StudentService).scoped(),
   authService: asClass(AuthService).scoped(),

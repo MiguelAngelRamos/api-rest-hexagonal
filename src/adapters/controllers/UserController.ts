@@ -1,3 +1,4 @@
+// src/adapters/controllers/UserController.ts
 import { POST, route } from "awilix-express";
 import { Request, Response, Router } from "express";
 import { AuthService } from "../../application/service/AuthService";
@@ -39,8 +40,7 @@ export class UserController {
   public async register (req: Request, res: Response ) {
     try {
       const { username, password } = req.body;
-      // console.log(username)
-      // console.log(password)
+    
       
       if(!username || !password) {
         return res.status(400).json({ error: 'Username and password are required'});
@@ -52,10 +52,11 @@ export class UserController {
         username: username,
         passwordHash: hashedPassword
       };
-      console.log(newUser);
+  
       await this.authService.registerUser(newUser);
       return res.status(201).json({message: 'User registered successfully'});
     } catch (error) {
+      console.log(error)
       return res.status(500).json({error: 'Internal Server error'});
     }
   }

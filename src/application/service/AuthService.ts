@@ -1,8 +1,9 @@
+// src/application/service/AuthService.ts
 import { IUser } from "../../domain/entities/IUser";
 import { IAuthService } from "../../domain/services/IAuthService";
+import { IUserRepository } from "../../domain/repositories/IUserRepository";
 import sha from 'sha.js';
 import jwt from 'jsonwebtoken';
-import { IUserRepository } from "../../domain/repositories/IUserRepository";
 export class AuthService implements IAuthService{
   
   private readonly jwtSecret: string;
@@ -61,9 +62,8 @@ export class AuthService implements IAuthService{
   async registerUser(user: IUser): Promise<void> {
     try {
       //* Validar si el usuario ya existe
-      // console.log(user);
       const existingUser = await this.userRepository.findUserByUsername(user.username);
-      // console.log(existingUser);
+      console.log(existingUser);
       if(existingUser) {
         throw new Error("Username already taken.")
       }
@@ -71,6 +71,7 @@ export class AuthService implements IAuthService{
       //* Guardar el usuario
       await this.userRepository.createUser(user);
     } catch (error) {
+      console.log(error)
       throw new Error("Error al registering user.");
     }
   }
