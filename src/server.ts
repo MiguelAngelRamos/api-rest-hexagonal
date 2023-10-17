@@ -9,6 +9,7 @@ import { StudentController } from './adapters/controllers/StudentController';
 import { AuthService } from './application/service/AuthService';
 import { UserController } from './adapters/controllers/UserController';
 import { MysqlUserRepository } from './infrastructure/repositories/MysqlUserRepository';
+import { AuthMiddleware } from './adapters/middleware/AuthMiddleware';
 
 const app = express();
 
@@ -22,13 +23,15 @@ container.register({
   dbConnection: asClass(MysqlConnection).singleton(),
   //* Repositories
   studentRepository: asClass(MysqlStudentRepository).scoped(),
-  userRepository: asClass(MysqlUserRepository).scoped(), //* este era el error
+  userRepository: asClass(MysqlUserRepository).scoped(),
   //* Servicios
   studentService: asClass(StudentService).scoped(),
   authService: asClass(AuthService).scoped(),
   //* Controladores
   studentController: asClass(StudentController).scoped(),
   userController: asClass(UserController).scoped(),
+  //* Middleware
+  authMiddleware: asClass(AuthMiddleware).scoped(),
 });
 
 app.use(scopePerRequest(container));

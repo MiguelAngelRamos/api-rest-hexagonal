@@ -15,6 +15,7 @@ export class AuthService implements IAuthService{
   validateToken(token: string): IUser {
     try {
       const user = jwt.verify(token, this.jwtSecret) as IUser;
+      console.log(user);
       return user;
     } catch (error) {
       throw new Error("Invalid token")
