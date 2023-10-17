@@ -20,13 +20,12 @@ export class UserController {
   public async login(req: Request, res: Response) {
     try {
       const { username, password } = req.body; 
-      console.log(password);
-      console.log(username);
+
       if(!username || !password) {
         return res.status(400).json({ error: 'Username and password are required' });
       }
       const user = await this.authService.validateUserCredentials(username, password);
-      console.log(user);
+    
       if(!user) {
         return res.status(401).json({error: 'Invalid credentials'});
       }

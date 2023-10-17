@@ -36,9 +36,15 @@ export class AuthService implements IAuthService{
   generateToken(user: IUser): string {
     try {
       const token = jwt.sign(
-        {id: user.id, username: user.username , role: user.role},
+        {
+          id: user.id, 
+          username: user.username, 
+          role: user.role
+        },
         this.jwtSecret,
-        {expiresIn: '1h'}
+        {
+          expiresIn: '1h'
+        }
       );
       return token;
     } catch (error) {
@@ -49,20 +55,14 @@ export class AuthService implements IAuthService{
      try {
       const hashedPassword = this.hashPassword(password);
       const user = await this.userRepository.findUserByUsername(username);
-      // {
-      //   id: 1,
-      //   username: 'node',
-      //   password: '1ae2e97c03639b16e2e05a76430cfa4f64192ee13b3479e7ce85446095df51fe',
-      //   role: null
-      // }
-      console.log(user);
+    
       if(user && user.password === hashedPassword) {
         return user;
       }
       return null;
 
      } catch (error) {
-      throw new Error('Error validating user credentials');
+      throw new Error('Error validating user credentials' + error);
      }
   }
   async registerUser(user: IUser): Promise<void> {
