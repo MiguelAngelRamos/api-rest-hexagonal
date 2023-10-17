@@ -15,4 +15,13 @@ export class AuthMiddleware {
       res.status(401).send('401 Unauthorized');
     }
   }
+
+  public authorizeRole(requiredRole: string) {
+    return (req: Request, res: Response, next: NextFunction) => {
+      if(!req.user || !this.authService.validateRole(req.user, requiredRole)) {
+        return res.status(403).send('Forbidden');
+      }
+      next();
+    }
+  }
 }

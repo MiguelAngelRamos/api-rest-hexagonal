@@ -22,7 +22,13 @@ export class AuthService implements IAuthService{
     }
   }
   validateRole(user: IUser, requiredRole: string): boolean {
-    throw new Error("Method not implemented.");
+    if(!user.role) {
+      throw new Error("User role is not defined");
+    }
+
+    //* requiredRole 'ADMIN'
+    //* user.role  'ADMIN'
+    return user.role === requiredRole; // * false
   }
 
   hashPassword(password: string): string {

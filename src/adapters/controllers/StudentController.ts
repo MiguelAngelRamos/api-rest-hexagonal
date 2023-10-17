@@ -1,17 +1,21 @@
 import {Request, Response, Router} from 'express';
 import { DELETE, GET, POST, PUT, route } from 'awilix-express';
 import { StudentService } from '../../application/service/StudentService';
+import { AuthMiddleware } from '../middleware/AuthMiddleware';
 
 
 @route('/students') //* localhost/students
 export class StudentController {
   public router: Router;
-  constructor(private readonly studentService: StudentService) {
+  constructor(private readonly studentService: StudentService, private readonly authMiddleware: AuthMiddleware) {
     // req.user //* informacion de payload dentro payload viene el ROL 
     this.router = Router();
+
+    //* Ambos roles, ADMIN Y USER
     this.router.get('/', this.all.bind(this));
     this.router.get('/:id', this.getById.bind(this));
-    this.router.post('/', this.create.bind(this));
+
+    this.router.post('/', this.authMiddleware this.create.bind(this));
     this.router.put('/:id', this.update.bind(this));
     this.router.delete('/:id', this.delete.bind(this));
   }
