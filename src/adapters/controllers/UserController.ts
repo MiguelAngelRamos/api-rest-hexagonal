@@ -20,10 +20,13 @@ export class UserController {
   public async login(req: Request, res: Response) {
     try {
       const { username, password } = req.body; 
+      console.log(password);
+      console.log(username);
       if(!username || !password) {
         return res.status(400).json({ error: 'Username and password are required' });
       }
       const user = await this.authService.validateUserCredentials(username, password);
+      console.log(user);
       if(!user) {
         return res.status(401).json({error: 'Invalid credentials'});
       }
@@ -40,8 +43,7 @@ export class UserController {
   public async register (req: Request, res: Response ) {
     try {
       const { username, password, role } = req.body;
-      console.log(username);
-      console.log(password);
+   
       if(!username || !password) {
         return res.status(400).json({ error: 'Username and password are required'});
       }
@@ -50,7 +52,7 @@ export class UserController {
 
       const newUser: IUser = {
         username: username,
-        passwordHash: hashedPassword,
+        password: hashedPassword,
         role: role
       };
       // const newUser: IUser = {

@@ -49,8 +49,14 @@ export class AuthService implements IAuthService{
      try {
       const hashedPassword = this.hashPassword(password);
       const user = await this.userRepository.findUserByUsername(username);
-
-      if(user && user.passwordHash === hashedPassword) {
+      // {
+      //   id: 1,
+      //   username: 'node',
+      //   password: '1ae2e97c03639b16e2e05a76430cfa4f64192ee13b3479e7ce85446095df51fe',
+      //   role: null
+      // }
+      console.log(user);
+      if(user && user.password === hashedPassword) {
         return user;
       }
       return null;
@@ -63,7 +69,7 @@ export class AuthService implements IAuthService{
     try {
       //* Validar si el usuario ya existe
       const existingUser = await this.userRepository.findUserByUsername(user.username);
-      console.log(existingUser);
+      
       if(existingUser) {
         throw new Error("Username already taken.")
       }
