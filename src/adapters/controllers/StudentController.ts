@@ -14,10 +14,10 @@ export class StudentController {
     //* Ambos roles, ADMIN Y USER
     this.router.get('/', this.all.bind(this));
     this.router.get('/:id', this.getById.bind(this));
-
-    this.router.post('/', this.authMiddleware this.create.bind(this));
-    this.router.put('/:id', this.update.bind(this));
-    this.router.delete('/:id', this.delete.bind(this));
+    //* Solo ADMIN puede crear, actualizar e Eliminar a un Student
+    this.router.post('/', this.authMiddleware.authorizeRole('ADMIN'), this.create.bind(this));
+    this.router.put('/:id',this.authMiddleware.authorizeRole('ADMIN'), this.update.bind(this));
+    this.router.delete('/:id',this.authMiddleware.authorizeRole('ADMIN'), this.delete.bind(this));
   }
 
 @GET() //* http://localhost:3000/students
