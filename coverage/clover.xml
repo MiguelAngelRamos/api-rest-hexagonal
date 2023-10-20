@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1697760554162" clover="3.2.0">
-  <project timestamp="1697760554162" name="All files">
-    <metrics statements="7" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="3" elements="13" coveredelements="7" complexity="0" loc="7" ncloc="7" packages="1" files="1" classes="1"/>
+<coverage generated="1697761944477" clover="3.2.0">
+  <project timestamp="1697761944478" name="All files">
+    <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="6" elements="13" coveredelements="13" complexity="0" loc="7" ncloc="7" packages="1" files="1" classes="1"/>
     <file name="StudentService.ts" path="C:\Users\MIGUEL\Desktop\NODE_HEXAGONAL\alumno\api-hexagonal\src\application\service\StudentService.ts">
-      <metrics statements="7" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="3"/>
+      <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="6"/>
       <line num="5" count="1" type="stmt"/>
       <line num="7" count="1" type="stmt"/>
       <line num="10" count="1" type="stmt"/>
       <line num="13" count="1" type="stmt"/>
-      <line num="16" count="0" type="stmt"/>
-      <line num="19" count="0" type="stmt"/>
-      <line num="22" count="0" type="stmt"/>
+      <line num="16" count="1" type="stmt"/>
+      <line num="19" count="1" type="stmt"/>
+      <line num="22" count="1" type="stmt"/>
     </file>
   </project>
 </coverage>

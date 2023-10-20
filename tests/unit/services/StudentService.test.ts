@@ -53,4 +53,48 @@ describe('StudentService', () => {
       }
     });
   });
+
+  describe('createStudent', () => {
+    it('should create a student correctly and return the created student', async() =>{
+
+      //* Definir a un nuevo estudiante a crear
+      const newStudent = { name:'Catalina', age: 25};
+
+      //* Simulando que el metodo create del repositorio devuelve al estudiante creado con ID
+      mockStudentRepository.create.mockResolvedValue({id: 1, name: 'Catalina', age: 25});
+
+      //* llamar al método createStudent con el estudiante a crear y almacena el resultado
+      const result = await studentService.createStudent(newStudent);
+
+      if(result) {
+        expect(result.id).toBe(1);
+        expect(result.name).toBe('Catalina');
+      }
+    });
+  });
+
+  describe('updateStudent' , () => {
+    it('should update a student correctly and return the updated student', async () => {
+      //* Definir los nuevos valores para actualizar a un estudiante existente
+      const updatedStudent = { name: 'Fernanda', age: 24 };
+
+      //* Simula que el método update del repositorio devuelve el estudiante actualizado
+      mockStudentRepository.update.mockResolvedValue({ id: 1, name: 'Fernanda', age: 24 });
+
+      const result = await studentService.updateStudent(1, updatedStudent);
+
+      if(result) {
+        expect(result.id).toBe(1);
+        expect(result.name).toBe('Fernanda');
+      }
+    });
+  })
+
+  describe('deleteStudent', () => {
+    it('should delete a student correctly', async() => {
+      mockStudentRepository.delete.mockResolvedValue(true);
+      await studentService.deleteStudent(1);
+      expect(mockStudentRepository.delete).toHaveBeenCalledWith(1);
+    });
+  });
 });
