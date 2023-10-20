@@ -11,3 +11,16 @@
  2. beforeEach -> Se ejecuta antes de cada prueba individual en un bloque
  3. afterAll -> Se ejecuta una vez que se hayan completado todas las pruebas en un bloque
  4. afterEach -> Se ejecuta despues de cada prueba individual en un bloque
+
+
+ ## Comandos 
+ 
+ ### Para ejecutar todas las pruebas 
+  ```sh 
+    npm test
+  ```
+ ### Para ejecutar una prueba especifica
+
+  ```sh 
+    npm test StudentService.test.ts
+  ```

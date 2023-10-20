@@ -84,7 +84,7 @@ export class AuthService implements IAuthService{
       //* Guardar el usuario
       await this.userRepository.createUser(user);
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       throw new Error("Error al registering user.");
     }
   }

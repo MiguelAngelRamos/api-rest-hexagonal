@@ -37,6 +37,20 @@ describe('StudentService', () => {
       //* Aseguro que el segundo estudiante tenga el nombre 'James'
       expect(result[1].name).toBe('James');
     });
-  })
+  });
 
+  describe('getStudentById', () => {
+    it('should return the correct student base on ID', async () => {
+      //* Simula que el método findById del repositorio devuelve un estudiante especifico
+      mockStudentRepository.findById.mockResolvedValue({id: 1, name: 'Linus', age: 25});
+
+      //* llama al metodo getStudentById con el id 1 y almacena el resultado
+      const result = await studentService.getStudentById(1);
+
+      //* Asegura que el estudiante devuelto tenga el nombre 'Linus' 
+      if(result) {
+        expect(result.name).toBe('Linus');
+      }
+    });
+  });
 });
