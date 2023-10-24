@@ -12,6 +12,7 @@ export class AuthService implements IAuthService{
 
     this.jwtSecret = process.env.JWT_SECRET || 'academy-node';
   }
+
   validateToken(token: string): IUser {
     try {
       const user = jwt.verify(token, this.jwtSecret) as IUser;
@@ -21,14 +22,15 @@ export class AuthService implements IAuthService{
       throw new Error("Invalid token")
     }
   }
+  
   validateRole(user: IUser, requiredRole: string): boolean {
     if(!user.role) {
-      throw new Error("User role is not defined");
+      throw new Error("User role is not defined.");
     }
 
     //* requiredRole 'ADMIN'
-    //* user.role  'ADMIN'
-    return user.role === requiredRole; // * false
+    //* user.role  'USER'
+    return user.role === requiredRole; // * true
   }
 
   hashPassword(password: string): string {
