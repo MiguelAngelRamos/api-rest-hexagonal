@@ -5,8 +5,14 @@ export class AuthMiddleware {
   constructor(private authService: AuthService) {}
 
   public authenticateJWT(req: Request, res: Response, next: NextFunction) {
-    const token = req.headers.authorization as string; //* Aseguramos de que el token sea un string
+    const authHeader = req.headers.authorization as string; //* Aseguramos de que el token sea un string
 
+    if(!authHeader) {
+      throw new Error("El token es necesario");
+    }
+   //* Bearer 838hjfehfeh1937439f91hfs2313242feffasdfefe3434141f
+   //* [Bearer, 838hjfehfeh1937439f91hfs2313242feffasdfefe3434141f]
+    const token = authHeader.split(' ')[1];
     try {
       const userPayload = this.authService.validateToken(token);
       req.user = userPayload;
