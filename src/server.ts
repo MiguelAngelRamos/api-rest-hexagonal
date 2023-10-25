@@ -50,6 +50,8 @@ app.use('/users', (req, res, next) => {
 })
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
  console.log(`Server esta corriendo en: http://localhost:${PORT}`);
 });
+
+export { app, server };
