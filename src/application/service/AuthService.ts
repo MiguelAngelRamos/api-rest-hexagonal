@@ -36,6 +36,7 @@ export class AuthService implements IAuthService{
   hashPassword(password: string): string {
    try {
     const hashedPassword = sha('sha256').update(password).digest('hex');
+    console.log(hashedPassword);
     return hashedPassword;
    } catch (error) {
     throw new Error('Error hashing password.')

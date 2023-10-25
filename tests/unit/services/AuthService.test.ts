@@ -9,6 +9,13 @@ const mockUserRepository: IUserRepository = {
   createUser: jest.fn(),
 }
 
+//* Mock del usuario
+const mockUser: IUser = {
+  id: '1',
+  username: 'usuario',
+  password: 'password',
+  role: 'USER'
+}
 const authService = new AuthService(mockUserRepository);
 describe('AuthService', () => {
 
@@ -54,6 +61,20 @@ describe('AuthService', () => {
 
   describe('validateUserCredentials', () => {
     it('should validate user credentials correctly', async () => {
+      const username = 'usuario';
+      const password = 'password';
+      //* Simular que findUserByUsername devuelve un usuario con contraseña hasheada
+      (mockUserRepository.findUserByUsername as jest.Mock).mockResolvedValue(mockUser);
+
+      //* Simular que hashPassword devuelve la contraseña hasheada correctamente
+      jest.spyOn(authService, 'hashPassword').mockReturnValue('password');
+
+      //* Simula que hashPassword devuelve un usuario con una contraseña hasheada incorrectamente
+      // jest.spyOn(authService, 'hashPassword').mockReturnValue('wrong-hashed-password');
+
+      const result = await authService.validateUserCredentials(username, password);
+      console.log(result);
+      expect(result).toEqual(mockUser);
 
     })
   });
