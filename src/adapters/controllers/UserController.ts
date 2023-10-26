@@ -3,7 +3,7 @@ import { POST, route } from "awilix-express";
 import { Request, Response, Router } from "express";
 import { AuthService } from "../../application/service/AuthService";
 import { IUser } from "../../domain/entities/IUser";
-
+import multer from 'multer';
 @route('/users') //* localhost:3000/users
 export class UserController {
   public router: Router;

@@ -13,10 +13,11 @@ export class AuthService implements IAuthService{
     this.jwtSecret = process.env.JWT_SECRET || 'academy-node';
   }
 
+
   validateToken(token: string): IUser {
     try {
       const user = jwt.verify(token, this.jwtSecret) as IUser;
-      console.log(user);
+      //console.log(user);
       return user;
     } catch (error) {
       throw new Error("Invalid token")
@@ -92,4 +93,15 @@ export class AuthService implements IAuthService{
     }
   }
 
+  async updatedUserImageService(username: string, imageURL: string): Promise<void> {
+    try {
+      const user = await this.userRepository.findUserByUsername(username);
+      if(!user) {
+        throw new Error("User not found");
+      }
+      await this.userRepository.updateUserImage(username, imageURL);
+    } catch(error) {
+      throw new Error("Error updating user image." + error);
+    }
+  }
 }

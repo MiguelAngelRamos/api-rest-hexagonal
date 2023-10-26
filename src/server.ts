@@ -36,6 +36,7 @@ container.register({
 
 app.use(scopePerRequest(container));
 app.use(express.json());
+app.use('/static', express.static('static')); //* para el uso de los estaticos
 //* localhost:3000/students
 app.use('/students', (req, res, next) => {
   const authMiddleware = container.resolve('authMiddleware');

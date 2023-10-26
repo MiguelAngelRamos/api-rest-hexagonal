@@ -8,4 +8,5 @@ export interface IAuthService {
   generateToken(user: IUser): string;
   validateUserCredentials(username: string, password: string): Promise<IUser | null>;
   registerUser(user: IUser): Promise<void>;
+  updatedUserImageService(username: string, imageURL: string): Promise<void>;
 }

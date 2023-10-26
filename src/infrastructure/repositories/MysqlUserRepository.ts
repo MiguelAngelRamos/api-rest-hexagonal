@@ -28,17 +28,32 @@ export class MysqlUserRepository implements IUserRepository {
     const conn = await this.dbConnection.getConnection();
 
     try {
-      const [result] = await conn.query<ResultSetHeader>('INSERT INTO users (username, password, role) VALUES(?,?,?)', [user.username, user.password, user.role]);
+      const [result] = await conn.query<ResultSetHeader>(
+        'INSERT INTO users (username, password, role) VALUES(?,?,?,?)', 
+        [user.username, user.password, user.role, user.imageURL]);
    
       const id = result.insertId;
 
       return {
         id: id.toString(),
-        username: user.username
+        username: user.username,
+        imageURL: user.imageURL
       }
     }  finally {
       conn.release();
     }
   }
+
+  //* Añadimos una imagen para aquellos que no agregan imagen en su registro
+  async updateUserImage(username: string, imageURL: string): Promise<void> {
+    const conn = await this.dbConnection.getConnection();
+
+    try {
+      await conn.query('UPDATE users SET imageURL = ? WHERE username = ?', [imageURL, username]);
+    } catch (error) {
+      conn.release();
+    }
+  }
+
 
 }

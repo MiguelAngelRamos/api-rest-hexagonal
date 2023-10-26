@@ -4,4 +4,5 @@ export interface IUser {
   username: string;
   password?: string;
   role?: string; // 'ADMIN', 'USER'
+  imageURL?: string;
 }
