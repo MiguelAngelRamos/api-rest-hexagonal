@@ -56,5 +56,21 @@ describe('StudentController Integration Tests', () => {
     expect(response.status).toBe(200);
     expect(response.body.id).toBe(studentId);
 
-  })
+  });
+
+  it('should update a student', async () => {
+    const token = await getTestToken();
+    const studentId = 4;
+    const updateStudent = {
+      name: 'Sofia Catalina',
+      age: 27
+    };
+    const response = await request(app)
+    .put(`/students/${studentId}`)
+    .send(updateStudent)
+    .set('Authorization', `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body.name).toBe(updateStudent.name);
+  });
 }); 
