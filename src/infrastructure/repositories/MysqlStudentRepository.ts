@@ -64,6 +64,12 @@ export class MysqlStudentRepository implements IStudentRepository {
 
   async delete(id: number): Promise<void> {
     const connection = await this.getConnection();
+
+    //* Comprobar si el registro existe
+    const [rows] = await connection.execute<RowDataPacket[]>('SELECT id FROM students WHERE id = ?', [id]);
+    if( rows.length === 0) {
+      throw new Error( `Student with ID ${id} not found`);
+    }
     await connection.execute('DELETE FROM students WHERE id = ?', [id]);
   }
 

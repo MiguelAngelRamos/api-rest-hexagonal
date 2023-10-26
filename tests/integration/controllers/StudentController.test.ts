@@ -73,4 +73,23 @@ describe('StudentController Integration Tests', () => {
     expect(response.status).toBe(200);
     expect(response.body.name).toBe(updateStudent.name);
   });
+
+  it('should delete a student', async () => {
+    const token = await getTestToken();
+    const studentId = 3;
+
+    //* primero verificar si el estudiante existe con ID 
+    const checkResponse = await request(app)
+                          .get(`/students/${studentId}`)
+                          .set('Authorization', `Bearer ${token}`);
+
+    if(checkResponse.status !== 200) {
+      throw new Error(`Student with ID ${studentId} not found`);
+    }                    
+    const response = await request(app)
+    .delete(`/students/${studentId}`)
+    .set('Authorization', `Bearer ${token}`);
+    //* 204 sin contenido
+    expect(response.status).toBe(204);
+  })
 }); 
