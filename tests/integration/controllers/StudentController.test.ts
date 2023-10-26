@@ -25,4 +25,36 @@ describe('StudentController Integration Tests', () => {
     console.log(Array.isArray(response.body));
     expect(Array.isArray(response.body)).toBe(true);
   })
+
+  it('should create a new student', async () => {
+
+    const token = await getTestToken();
+
+    const newStudent = {
+      name: 'James Gosling',
+      age: 50
+    };
+
+    const response = await request(app)
+                    .post('/students')
+                    .send(newStudent)
+                    .set('Authorization', `Bearer ${token}`);
+
+    console.log(response.status);
+    console.log(response.body.name);
+    expect(response.status).toBe(201);
+    expect(response.body.name).toBe(newStudent.name);
+  });
+
+  it('should get a student by ID', async () => {
+    const token = await getTestToken();
+    const studentId = 4;
+    const response = await request(app)
+                      .get(`/students/${studentId}`)
+                      .set('Authorization', `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body.id).toBe(studentId);
+
+  })
 }); 
