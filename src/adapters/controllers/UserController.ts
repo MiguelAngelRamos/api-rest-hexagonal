@@ -59,36 +59,39 @@ export class UserController {
   @POST()
   @route('/register')  //* localhost:3000/users/register
   public async register (req: Request, res: Response ) {
-    try {
-      const { username, password, role } = req.body;
-   
-      if(!username || !password) {
-        return res.status(400).json({ error: 'Username and password are required'});
+
+    this.upload.single('image')(req, res, async (err) => {
+      if (err) {
+          return res.status(500).json({ error: 'Error uploading image.' });
       }
-      //* encriptamos la contraseña (password)
+
+      const { username, password, role } = req.body;
+
+      if (!username || !password) {
+          return res.status(400).json({ error: 'Username and password are required' });
+      }
+
       const hashedPassword = this.authService.hashPassword(password);
 
       const newUser: IUser = {
-        username: username,
-        password: hashedPassword,
-        role: role
+          username: username,
+          password: hashedPassword,
+          role: role,
+          imageURL: req.file ? `/static/${req.file.filename}` : undefined // Si hay una imagen, guarda la URL, de lo contrario, deja undefined
       };
-      // const newUser: IUser = {
-      //   username,
-      //   passwordHash: hashedPassword,
-      //   role
-      // };
-  
-      await this.authService.registerUser(newUser);
-      return res.status(201).json({message: 'User registered successfully'});
-    } catch (error) {
-      console.log(error)
-      return res.status(500).json({error: 'Internal Server error'});
-    }
+
+      try {
+          await this.authService.registerUser(newUser);
+          return res.status(201).json({ message: 'User registered successfully', imageURL: newUser.imageURL });
+      } catch (error) {
+          console.log(error);
+          return res.status(500).json({ error: 'Internal Server error' });
+      }
+  });
   }
  
   @POST()
-  @route('/update-image/:username')
+  @route('/update-image/:username') //* localhost:3000/users/update-image/:username
   public async updateImage(req: Request, res: Response) {
     const { username } = req.params;
 
