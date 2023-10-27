@@ -6,13 +6,32 @@ import { IUser } from "../../domain/entities/IUser";
 import multer from 'multer';
 @route('/users') //* localhost:3000/users
 export class UserController {
+
   public router: Router;
+
+  private storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+      cb(null, 'static/')
+    },
+    filename: function(req, file, cb ) {
+      //* sofia.jpg
+      const fileExtension = file.originalname.split('.').pop();
+                               //* ["sofia", "jpg"]
+
+      //* fileExtesion = jpg
+      //* 18398419384918493849148.jpg
+      cb(null, `${Date.now()}-${Math.round(Math.random() * 1E9)}.${fileExtension}`);
+    }
+  });
+
+  private upload = multer({storage: this.storage});
 
   constructor(private readonly authService: AuthService) {
     this.router = Router();
     //* localhost:3000/users/login
     this.router.post('/login', this.login.bind(this));
-    this.router.post('/register', this.register.bind(this))
+    this.router.post('/register', this.register.bind(this));
+    this.router.post('/update-image/:username', this.updateImage.bind(this));
   }
 
   @POST()
@@ -68,5 +87,31 @@ export class UserController {
     }
   }
  
+  @POST()
+  @route('/update-image/:username')
+  public async updateImage(req: Request, res: Response) {
+    const { username } = req.params;
 
+    this.upload.single('image')(req,res, async (err) => {
+
+      if(err) {
+        return res.status(500).json({error: 'Error uploading image.'})
+      }
+
+      if(!req.file || !req.file.filename) {
+        return res.status(400).json({error: 'image is required for updating'})
+      }
+
+      const imageURL = `/static/${req.file.filename}`;
+
+      try {
+        await this.authService.updatedUserImageService(username, imageURL);
+        return res.status(200).json({message: 'Image updated successfully', imageURL: imageURL})
+      } catch (error) {
+        console.log(error);
+        return res.status(500).json({error: 'Internal server error'})
+      }
+
+    })
+  }
 }
