@@ -50,7 +50,8 @@ export class AuthService implements IAuthService{
         {
           id: user.id, 
           username: user.username, 
-          role: user.role
+          role: user.role,
+          imgUrl: user.imageURL
         },
         this.jwtSecret,
         {

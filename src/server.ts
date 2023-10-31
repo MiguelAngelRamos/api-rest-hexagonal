@@ -10,7 +10,7 @@ import { AuthService } from './application/service/AuthService';
 import { UserController } from './adapters/controllers/UserController';
 import { MysqlUserRepository } from './infrastructure/repositories/MysqlUserRepository';
 import { AuthMiddleware } from './adapters/middleware/AuthMiddleware';
-
+import cors from 'cors';
 const app = express();
 
 //* Creamos el contenedor
@@ -33,7 +33,12 @@ container.register({
   //* Middleware
   authMiddleware: asClass(AuthMiddleware).scoped(),
 });
-
+app.use(cors({
+  origin: 'http://localhost:4200',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
 app.use(scopePerRequest(container));
 app.use(express.json());
 app.use('/static', express.static('static')); //* para el uso de los estaticos
