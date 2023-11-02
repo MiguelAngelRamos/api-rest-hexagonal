@@ -29,7 +29,7 @@ export class MysqlUserRepository implements IUserRepository {
 
     try {
       const [result] = await conn.query<ResultSetHeader>(
-        'INSERT INTO users (username, password, role) VALUES(?,?,?,?)', 
+        'INSERT INTO users (username, password, role, imageURL) VALUES(?,?,?,?)', 
         [user.username, user.password, user.role, user.imageURL]);
    
       const id = result.insertId;
